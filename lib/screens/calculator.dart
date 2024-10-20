@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../constant/color.dart';
+
 class Calculator extends StatefulWidget {
   const Calculator({super.key});
 
@@ -24,6 +26,9 @@ class _CalculatorState extends State<Calculator> {
 
   @override
   Widget build(BuildContext context) {
+
+    double _screenwidth = MediaQuery.of(context).size.width;
+    double _screenheight = MediaQuery.of(context).size.height;
 
 
     @override
@@ -75,13 +80,25 @@ class _CalculatorState extends State<Calculator> {
     return SafeArea(
 
       child: Scaffold(
+        backgroundColor: backgroundColor,
         body: Container(
-
+          color: backgroundColor,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
 
-              Text("Result:$result"),
+              SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Result: "),
+                    Text("$result",
+                    style: TextStyle(
+                      color: resultColor,
+                    ),),
+                  ],
+                ),
+              ),
               TextFormField(
                 controller: firstTFcontroller,
                 decoration: InputDecoration(border: OutlineInputBorder()),
@@ -103,7 +120,10 @@ class _CalculatorState extends State<Calculator> {
                 items: _operator
                     .map((e) => DropdownMenuItem<String>(
                   value: e, // 선택 시 onChanged 를 통해 반환할 value
-                  child: Text(e),
+                  child: Text(e,
+                  style: TextStyle(
+                    color: textColor,
+                  ),),
                 ))
                     .toList(),
                 onChanged: (value) { // items 의 DropdownMenuItem 의 value 반환
@@ -113,14 +133,23 @@ class _CalculatorState extends State<Calculator> {
                 },
               ),
               ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(markOperatorButtonColor),
+                ),
                 onPressed: null,
                 child: Text(
                   _buttonText,
+                  style: TextStyle(
+                    color: textColor,
+                  ),
                 ),
               ),
               ElevatedButton(
                 onPressed: setResult,
-                child: const Text("계산"),
+                child: Text("계산",
+                style: TextStyle(
+                  color: textColor,
+                ),),
               ),
             ],
           ),
